@@ -15,7 +15,7 @@ class NonexistentFileException : public std::exception
 };
 
 int main () {
-	char * file_content;
+	char * file_content = NULL;
 	try {
 		string input_filename;
 		cout << "Digite o nome de um arquivo (com extensao):\n";
@@ -43,12 +43,11 @@ int main () {
 		
 			if (file) {
 				cout << file_content;
-			} else {
-				cout << "Erro: " << file.gcount() <<"\n";
 			}
 
 			file.close();
 
+			// "Desalocando" memória
 			delete[] file_content;
 		} else {
 			// Lancando excecao caso o arquivo nao tenha sido aberto
@@ -57,6 +56,8 @@ int main () {
 
 		return 0;
 	} catch (NonexistentFileException error) {
+		// "Desaloca" memória se o ponteiro estiver apontando para algo diferente de nulo
+		if (file_content != NULL) delete[] file_content;
 		cout <<	error.what();
 		return 0;
 	}	
