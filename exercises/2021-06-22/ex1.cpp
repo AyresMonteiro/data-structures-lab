@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class NonexistentFileException : public std::exception
+class NonexistentFileException : public exception
 {
 	public:
 		const char * what() const throw () {
