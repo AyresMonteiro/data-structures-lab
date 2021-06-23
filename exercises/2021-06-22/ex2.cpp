@@ -5,8 +5,6 @@
 
 using namespace std;
 
-namespace fs = std::filesystem;
-
 class NonexistentFileException : public std::exception
 {
 	public:
