@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class NonexistentFileException : public std::exception
+class NonexistentFileException : public exception
 {
 	public:
 		const char * what() const throw () {
@@ -16,7 +16,7 @@ class NonexistentFileException : public std::exception
 bool isConsonant(char content_char) {
 	char consonants[] = "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ";
 	
-	return std::find(std::begin(consonants), std::end(consonants), content_char) != std::end(consonants);
+	return find(begin(consonants), end(consonants), content_char) != end(consonants);
 }
 
 int main () {
