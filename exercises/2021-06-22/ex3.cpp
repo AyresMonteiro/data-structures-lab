@@ -1,5 +1,4 @@
 #include <iostream>
-#include <filesystem>
 #include <fstream>
 
 using namespace std;
@@ -16,6 +15,8 @@ int main () {
 		string user_words;
 		getline(cin, user_words);
 		file << user_words;
+
+		file.close();
 	}
 
 	return 0;
