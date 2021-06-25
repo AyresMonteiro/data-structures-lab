@@ -13,9 +13,9 @@ class NonexistentFileException : public exception
 };
 
 bool isLetter(char content_char) {
-	char consonants[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	char letters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
-	return find(begin(consonants), end(consonants), content_char) != end(consonants);
+	return find(begin(letters), end(letters), content_char) != end(letters);
 }
 
 int main () {
