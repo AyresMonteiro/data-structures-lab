@@ -22,9 +22,7 @@ int main () {
 		cin >> input_filename;
 
 		fstream file;
-
-		// O código abaixo só funciona a partir do c++ 11
-		// devido ao uso da função vector::data()
+ 
 		file.open("./" + input_filename, fstream::in);
 
 		if(!file.is_open()) throw NonexistentFileException();
@@ -39,6 +37,8 @@ int main () {
 			}
 		}
 		
+		// O código abaixo só funciona a partir do c++ 11
+		// devido ao uso da função vector::data()
 		cout << file_content.data() << endl;
 
 		file.close();
