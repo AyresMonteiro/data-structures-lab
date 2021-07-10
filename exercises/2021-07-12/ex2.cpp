@@ -3,8 +3,6 @@
 #include <vector>
 #include <algorithm>
 
-#define endOfCIn -1
-
 using namespace std;
 
 class NonexistentFileException : public exception
@@ -16,7 +14,7 @@ class NonexistentFileException : public exception
 };
 
 bool isNotPunctuationMark(char c) {
-	char punctuationMarks[] = "!@#$%*()-+='\"\\|,.;:/?[]{}";
+	char punctuationMarks[] = "!@#$%*()-+='\"\\|,.;:/?[]{} \n";
 
 	return find(
 		begin(punctuationMarks),
@@ -46,7 +44,11 @@ int main () {
 		int i = 0;
 
 		while (file.get(aCharacter)) {
-			if(aCharacter == ' ' || aCharacter == '\n') {
+			if(
+				(aCharacter == ' ' ||
+				aCharacter == '\n') &&
+				file_content[i].size() != 0
+			) {
 				vector<char> newVector;
 				file_content.push_back(newVector);
 				file_content[i].push_back('\0');
@@ -62,22 +64,22 @@ int main () {
 			}
 		}
 
+		// Deleta o ultimo array caso esse esteja vazio (Em caso do
+		// arquivo ter uma quebra de linha no final)
+
+		if((file_content.end() - 1)->size() == 0) {
+			file_content.pop_back();
+		}
+
 		vector<vector<char>>::reverse_iterator rI =
 			file_content.rbegin();
 
-		while (rI != file_content.rend()) {
-			// O ponteiro para o qual o iterador reverso inicial
-			// aponta vem depois do ponteiro do iterador final
-			// normal, portanto é aconselhável diminui-lo antes do
-			// seu uso inicial, ao invés de diminui-lo ao final de
-			// cada loop.
-			// Ps: Aumentar um iterador reverso diminui seu
-			// ponteiro. Malandragens do C++.
-			++rI;
-
+		while (rI != file_content.rend()) {	
 			// O código abaixo só funciona a partir do c++ 11
 			// devido ao uso da função vector::data()
 			cout << rI->data() << endl;
+
+			rI++;
 		}
 
 		file.close();
