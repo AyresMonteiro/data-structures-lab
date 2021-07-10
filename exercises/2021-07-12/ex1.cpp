@@ -32,14 +32,20 @@ int main () {
 		char aCharacter;
 
 		while (file.get(aCharacter)) {
-			if ((aCharacter > 64 && aCharacter < 91) || (aCharacter > 97 && aCharacter < 123)) {
+			if ((aCharacter > 64 && aCharacter < 91) || (aCharacter > 96 && aCharacter < 123)) {
 				file_content.push_back(aCharacter);
 			}
 		}
-		
-		// O código abaixo só funciona a partir do c++ 11
-		// devido ao uso da função vector::data()
-		cout << file_content.data() << endl;
+
+		int array_size = file_content.size();
+
+		for(int i = 0; i < array_size; i++) {
+			cout << file_content[i];
+
+			if(i != array_size - 1) cout << ' ';
+		}
+
+		cout << endl;
 
 		file.close();
 
