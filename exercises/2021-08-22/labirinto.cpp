@@ -2,6 +2,7 @@
 #include <fstream>
 #include <exception>
 #include <queue>
+#include <stack>
 
 #define MY_FILENAME_SIZE 80
 
@@ -115,6 +116,35 @@ int printMatrix(int ** matrix, int matrixSize) {
 	return 0;
 }
 
+int printSolutionMatrix(int ** matrix, int matrixSize) {
+	int matrixRowController;
+
+	for (matrixRowController = 0; matrixRowController < matrixSize; matrixRowController++) {
+		int matrixColumnController;
+
+		for(matrixColumnController = 0; matrixColumnController < matrixSize; matrixColumnController++) {
+			cout << "\t";
+
+			switch (matrix[matrixRowController][matrixColumnController]) {
+				case -2:
+					cout << "X";
+					break;
+				case -1:
+					cout << "#";
+					break;
+				default:
+					cout << " ";
+			}
+		}
+
+		cout << endl;
+	}
+
+	cout << endl;
+
+	return 0;
+}
+
 int * copyContentToMatrix (int ** matrix, int matrixSize, char * content) {
 	int matrixRowController = 0, matrixColumnController = 0;
 
@@ -201,6 +231,70 @@ int anotar(int x, int y, int ** matrix, int matrixSize) {
 	return 0;
 }
 
+point searchForLesser (int ** matrix, int matrixSize, point current) {
+	int y = current.y, x = current.x;
+
+	int lesser = matrix[y][x];
+
+	for (int i = -1; i < 2; i++) {
+		if(y + i < 0 || y + i >= matrixSize) continue;
+
+		for (int j = -1; j < 2; j++) {
+			if (x + j < 0 || x + j >= matrixSize) continue;
+			if (i == j || i == (j * -1)) continue;
+			if (matrix[y + i][x + j] == -1) continue;
+
+			if(matrix[y + i][x + j] < lesser) {
+				lesser = matrix[y + i][x + j];
+				current.x = x + j;
+				current.y = y + i;
+			}
+		}
+	}
+
+	return current;
+}
+
+int extrair (int ** matrix, int matrixSize) {
+	stack<point> pointStack;
+
+	point exit;
+	exit.x = matrixSize - 2;
+	exit.y = matrixSize - 2;
+
+	pointStack.push(exit);
+
+	if (matrix[pointStack.top().y][pointStack.top().x] == 0) return 0;
+	if (matrix[pointStack.top().y][pointStack.top().x] == -1) return 0;
+
+	while (matrix[pointStack.top().y][pointStack.top().x] != 1) {
+		int value = matrix[pointStack.top().y][pointStack.top().x];
+
+		point pointToCompare;
+
+		pointToCompare.x = pointStack.top().x;
+		pointToCompare.y = pointStack.top().y;
+ 
+		point lesserPoint = searchForLesser(matrix, matrixSize, pointToCompare);
+
+		if(value > matrix[lesserPoint.y][lesserPoint.x]) {
+			pointStack.push(lesserPoint);
+		} else {
+			matrix[pointStack.top().y][pointStack.top().x] = value + 1;
+			pointStack.pop();
+		}
+	}
+
+	while (!pointStack.empty()) {
+		int y = pointStack.top().y, x = pointStack.top().x;
+		matrix[y][x] = -2;
+		pointStack.pop();	
+	}
+
+	return 0;
+}
+
+
 int main () {
 	int matrixSize = 0;
 
@@ -252,6 +346,12 @@ int main () {
 	cout << "Mapped Maze:" << endl << endl;
 
 	printMatrix(matrix, matrixSize);
+
+	extrair(matrix, matrixSize);
+
+	cout << "Shortest path:" << endl << endl;
+
+	printSolutionMatrix(matrix, matrixSize);
 
 	freeMatrix(matrix, matrixSize);
 
