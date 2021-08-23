@@ -255,12 +255,12 @@ point searchForLesser (int ** matrix, int matrixSize, point current) {
 	return current;
 }
 
-int extrair (int ** matrix, int matrixSize) {
+int extrair (int exitX, int exitY, int ** matrix, int matrixSize) {
 	stack<point> pointStack;
 
 	point exit;
-	exit.x = matrixSize - 2;
-	exit.y = matrixSize - 2;
+	exit.x = exitX;
+	exit.y = exitY;
 
 	pointStack.push(exit);
 
@@ -334,20 +334,25 @@ int main () {
 
 	printMatrix(matrix, matrixSize);
 
-	int x, y;
+	int entranceX, entranceY, exitX, exitY;
 
-	cout << "Insert x (start count by 0):" << endl;
-	cin >> x;
-	cout << "Insert y (start count by 0):" << endl;
-	cin >> y;
+	cout << "Insert entrance's x (start count by 0):" << endl;
+	cin >> entranceX;
+	cout << "Insert entrance's y (start count by 0):" << endl;
+	cin >> entranceY;
 
-	anotar(x, y, matrix, matrixSize);
+	anotar(entranceX, entranceY, matrix, matrixSize);
 	
 	cout << "Mapped Maze:" << endl << endl;
 
 	printMatrix(matrix, matrixSize);
 
-	extrair(matrix, matrixSize);
+	cout << "Insert exit's x (start count by 0):" << endl;
+	cin >> exitX;
+	cout << "Insert exit's y (start count by 0):" << endl;
+	cin >> exitY;
+
+	extrair(exitX, exitY, matrix, matrixSize);
 
 	cout << "Shortest path:" << endl << endl;
 
@@ -357,5 +362,4 @@ int main () {
 
 	return 0;
 }
-
 
